@@ -3,7 +3,8 @@ window.params = {
     height: 9,
     coins: 90,
     coin_log: [],
-    turn: 0
+    turn: 0,
+    ticket_count: 0
 }
 
 for(i = 0; i < window.params.width*window.params.height; i++){
@@ -135,8 +136,10 @@ function generate_ticket(){
        }
      }
   }
-
+    window.params.ticket_count++;
     var ticket = document.createElement("table");
+    ticket.setAttribute('id', 'ticket-'+window.params.ticket_count);
+    ticket.setAttribute('onclick', 'print_ticket('+ window.params.ticket_count +')');
     for(r = 0; r < 3; r++){
         var row = ticket.insertRow(r);
         for(c = 0; c < 9; c++){
@@ -148,4 +151,17 @@ function generate_ticket(){
     _br = document.createElement('br');
     _tickets_panel.after(ticket);
     _tickets_panel.after(_br);
+}
+
+function print_ticket(id){
+  var ticket_content = document.getElementById('ticket-'+id);
+  var css_content = document.getElementById('mystyle');
+  var WinPrint = window.open('', '', 'left=0,top=0,width=300,height=100,toolbar=0,scrollbars=0,status=0');
+  WinPrint.document.write('<html><head>');
+  WinPrint.document.write(css_content.outerHTML);
+  WinPrint.document.write('</head><body onload="print();close();">');
+  WinPrint.document.write(ticket_content.outerHTML);
+  WinPrint.document.write('</body></html>');
+  WinPrint.document.close();
+  WinPrint.focus();
 }
