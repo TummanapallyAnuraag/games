@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Daadhi</title>
+    <style>
+        body{
+            font-family: monospace;
+            background-color: #f0f0f0;
+        }
+        #scoreboard{
+            border-collapse: collapse;
+        }
+        #scoreboard td, #scoreboard th{
+            border: 1px solid grey;
+            text-align: center;
+            padding: 5px 7px;
+        }
+        #scoreboard .highlight{
+            background-color: sandybrown;
+        }
+        #announcement{
+            background-color: sandybrown;
+            text-transform: capitalize;
+            /*font-weight: bold;*/
+            /*font-size: 15px;*/
+            padding: 10px;
+            border-radius: 50px;
+        }
+        .centre{
+            width: 60%;
+            margin-left: 20%;
+            margin-right: 20%;
+            background-color: white;
+            display: block;
+
+        }
+        .tab-cell{
+            width: 50%;
+            display: table-cell;
+        }
+        .shadow{
+            /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        #playground {
+            cursor: pointer;
+        }
+        #playground td{
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            position: relative;
+            border: 1px solid white;
+        }
+        td.active{
+            background-color: #aad751;
+            box-shadow: 2px 2px 50px 0 rgba(0, 0, 0, 0.4)
+        }
+        div.vl{
+            background-color: sandybrown;
+            height: 50px;
+            width: 2px;
+            position: absolute;
+            left: 25px;
+            top: 0;
+        }
+        div.hl{
+            background-color: sandybrown;
+            width: 50px;
+            height: 2px;
+            position: absolute;
+            left: 0px;
+            top: 25px;
+        }
+        td.selected{
+            background-color: sandybrown;
+        }
+    </style>
+</head>
+<body onkeydown="key_press_action(event);">
+    <div class="centre shadow" style="">
+        <h1 class="centre" >
+            <u>Daadhi</u>
+        </h1>
+        <div class="centre" style="display: table;">
+            <div class="tab-cell">
+                <table id="scoreboard">
+                    <tr>
+                        <th></th>
+                        <th class="black">Blacks</th>
+                        <th class="white highlight">Whites</th>
+                    </tr>
+                    <tr>
+                        <td>Score</td>
+                        <td class="black" id="black">0</td>
+                        <td class="white highlight" id="white">0</td>
+                    </tr>
+                    <tr>
+                        <td>Pieces</td>
+                        <td class="black" id="black-pieces">10</td>
+                        <td class="white highlight" id="white-pieces">10</td>
+                    </tr>
+                    <tr>
+                        <td>Dead</td>
+                        <td class="black" id="black-dead">0</td>
+                        <td class="white highlight" id="white-dead">0</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tab-cell">
+                <span id="announcement">Messages</span>
+            </div>
+        </div>
+        <br>
+        <table class="centre" id="playground">
+        </table>
+        <br>
+        <div class="centre buttons">
+            <button onclick="location.reload()" > New Game </button>
+            <br>
+            <hr>
+        </div>
+    </div>
+    <script type="text/javascript" src="index.js"></script>
+</body>
+
+</html>
