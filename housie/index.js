@@ -139,29 +139,59 @@ function generate_ticket(){
     window.params.ticket_count++;
     var ticket = document.createElement("table");
     ticket.setAttribute('id', 'ticket-'+window.params.ticket_count);
-    ticket.setAttribute('onclick', 'print_ticket('+ window.params.ticket_count +')');
+    // ticket.setAttribute('onclick', 'print_ticket('+ window.params.ticket_count +')');
     for(r = 0; r < 3; r++){
         var row = ticket.insertRow(r);
         for(c = 0; c < 9; c++){
             var cell = row.insertCell(c);
             cell.innerHTML = result[r][c] > 0 ? result[r][c] : '';
+            cell.setAttribute('class', '');
+            if(result[r][c] > 0){
+              cell.setAttribute('onclick', 'toggle_cell(this)');
+            }
         }
     }
-    _tickets_panel = document.getElementById('tickets-start');
+    var dstring = '&data=' + result[0].join() + ';' + result[1].join() + ';' + result[2].join();
     _br = document.createElement('br');
+    _href = document.createElement('a');
+    _button = document.createElement('button');
+
+    _href.innerHTML = 'Link to share..';
+    _href.href = 'ticket.html?' + dstring;
+
+    _button.innerHTML = 'copy';
+    _button.setAttribute('share_link', 'ticket.html?' + dstring);
+    _button.setAttribute('onclick', 'share_it(this);');
+
+    _tickets_panel = document.getElementById('tickets-start');
     _tickets_panel.after(ticket);
+    _tickets_panel.after(_href);
+    _tickets_panel.after(_button);
     _tickets_panel.after(_br);
 }
 
-function print_ticket(id){
-  var ticket_content = document.getElementById('ticket-'+id);
-  var css_content = document.getElementById('mystyle');
-  var WinPrint = window.open('', '', 'left=0,top=0,width=300,height=100,toolbar=0,scrollbars=0,status=0');
-  WinPrint.document.write('<html><head>');
-  WinPrint.document.write(css_content.outerHTML);
-  WinPrint.document.write('</head><body onload="print();close();">');
-  WinPrint.document.write(ticket_content.outerHTML);
-  WinPrint.document.write('</body></html>');
-  WinPrint.document.close();
-  WinPrint.focus();
+function toggle_cell(obj){
+  var cname = obj.getAttribute('class');
+  if(cname.indexOf('selected') != -1){
+    if(confirm('Do you want to de-selet this entry?')){
+      cname = cname.replace(' selected', '');
+      obj.setAttribute('class', cname);
+      obj.innerHTML = obj.innerHTML.replace('<strike>', '');
+      obj.innerHTML = obj.innerHTML.replace('</strike>', '');
+    }
+  }else{
+    obj.setAttribute('class', cname + ' selected');
+    obj.innerHTML = '<strike>' + obj.innerHTML + '</strike>';
+  }
+}
+
+function share_it(obj){
+  var copyText = obj.getAttribute('share_link');
+  var new_elem = document.createElement('input');
+  new_elem.setAttribute('value', copyText);
+  new_elem.select();
+  new_elem.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  
+  obj.innerHTML = 'copied!';
 }

@@ -44,20 +44,6 @@
         table tr:nth-child(even) td:nth-child(even), table tr:nth-child(odd) td:nth-child(odd){
             background-color: #a2d149;
         }
-        table#playground td:hover{
-            background-color: sandybrown;
-        }
-        table#playground td.reveal{
-            background-color: #eee;
-        }
-        table#playground td.mine{
-            background-color: #ee1;
-        }
-        table#playground td.flag{
-            background-color: #f00;
-            background: url(flag.png);
-            background-size: 32px 32px;
-        }
         table td strike{
             background-color: #fbb;
             border-radius: 20px;
@@ -65,27 +51,15 @@
         }
     </style>
 </head>
-<body>
+<body >
     <div class="centre shadow" style="padding: 10px 0px;">
-        <h1 class="centre" >
-            <u>Housie</u>
+        <h1 class="centre" id="player-name">
         </h1>
-        <h1 id="revealed" style="text-align: center;"></h1>
-        <p class="centre" > <span id="status"></span> coin(s) revealed</p>
-        <table class="centre" id="playground">
-        </table>
-        <div class="centre buttons">
-            <hr>
-            <p class="" id="log">Reveal Sequence: </p>
-            <hr>
-            <button onclick="reveal_coin()" > Reveal </button>
-            <button onclick="generate_ticket()" > New ticket </button>
-            <p id='testing'></p>
-            <br>
+        <div class="centre">
             <hr id="tickets-start">
         </div>
     </div>
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="ticket.js"></script>
 </body>
 
 </html>
