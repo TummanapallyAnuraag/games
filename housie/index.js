@@ -154,19 +154,13 @@ function generate_ticket(){
     var dstring = '&data=' + result[0].join() + ';' + result[1].join() + ';' + result[2].join();
     _br = document.createElement('br');
     _href = document.createElement('a');
-    _button = document.createElement('button');
 
     _href.innerHTML = 'Link to share..';
     _href.href = 'ticket.html?' + dstring;
 
-    _button.innerHTML = 'copy';
-    _button.setAttribute('share_link', 'ticket.html?' + dstring);
-    _button.setAttribute('onclick', 'share_it(this);');
-
     _tickets_panel = document.getElementById('tickets-start');
     _tickets_panel.after(ticket);
     _tickets_panel.after(_href);
-    _tickets_panel.after(_button);
     _tickets_panel.after(_br);
 }
 
@@ -183,15 +177,4 @@ function toggle_cell(obj){
     obj.setAttribute('class', cname + ' selected');
     obj.innerHTML = '<strike>' + obj.innerHTML + '</strike>';
   }
-}
-
-function share_it(obj){
-  var copyText = obj.getAttribute('share_link');
-  var new_elem = document.createElement('input');
-  new_elem.setAttribute('value', copyText);
-  new_elem.select();
-  new_elem.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  
-  obj.innerHTML = 'copied!';
 }
