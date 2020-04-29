@@ -193,6 +193,10 @@ function generate_ticket(){
   for(c = 0; c < 9; c++){
   var cell = row.insertCell(c);
   cell.innerHTML = result[r][c] > 0 ? result[r][c] : '';
+  if(result[r][c] > 0){
+    cell.setAttribute('onclick', 'toggle_cell(this);');
+    cell.setAttribute('class', '');
+  }
   }
   }
   var dstring = '&data=' + result[0].join() + ';' + result[1].join() + ';' + result[2].join();
@@ -202,10 +206,10 @@ function generate_ticket(){
   _href.innerHTML = 'Link to share..';
   _href.href = 'ticket.html?' + dstring;
 
-  _tickets_panel = document.getElementById('tickets-start');
-  _tickets_panel.after(ticket);
-  _tickets_panel.after(_href);
-  _tickets_panel.after(_br);
+  _tickets_panel = document.getElementById('tickets');
+  _tickets_panel.appendChild(_br);
+  _tickets_panel.appendChild(_href);
+  _tickets_panel.appendChild(ticket);
   }
 }
 

@@ -1,63 +1,25 @@
 <!DOCTYPE HTML>
 <html>
-
-
 <head>
     <meta charset="utf-8">
     <title>Tambola/Housie</title>
-    <style id="mystyle">
-        body{
-            font-family: monospace;
-            background-color: #f0f0f0;
-        }
-        #status{
-            background-color: sandybrown;
-            padding: 3px;
-            border-radius: 7px;
-        }
-        .centre{
-            width: 80%;
-            margin-left: 10%;
-            margin-right: 10%;
+    <link href="index.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .ticket-container{
+            width: 450px; 
+            margin: auto; 
+            text-align: center; 
             background-color: white;
-            display: block;
-
-        }
-        .shadow{
-            /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
-            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-        table {
-            border-collapse: collapse;
-            cursor: pointer;
-        }
-        table td, table tr{
-            /*border: 1px solid #a2d149;*/
-            padding: 2px;
-        }
-        table td{
-            width: 30px;
-            height: 30px;
-            text-align: center;
-            background-color: #aad751;
-        }
-        table tr:nth-child(even) td:nth-child(even), table tr:nth-child(odd) td:nth-child(odd){
-            background-color: #a2d149;
-        }
-        table td strike{
-            background-color: #fbb;
-            border-radius: 20px;
-            padding: 5px;
+            padding: 10px;
         }
     </style>
 </head>
 <body >
-    <div class="centre shadow" style="padding: 10px 0px;">
-        <h1 class="centre" id="player-name">
+    <div class="shadow ticket-container">
+        <h1 id="player-name">
         </h1>
-        <div class="centre">
-            <hr id="tickets-start">
-        </div>
+        <hr><br>
+        <div id="tickets"></div>
     </div>
     <script type="text/javascript" src="ticket.js"></script>
 </body>

@@ -32,8 +32,8 @@ for(r = 0; r < 3; r++){
         }
     }
 }
-_tickets_panel = document.getElementById('tickets-start');
-_tickets_panel.after(ticket);
+_tickets_panel = document.getElementById('tickets');
+_tickets_panel.appendChild(ticket);
 
 function toggle_cell(obj){
     var cname = obj.getAttribute('class');

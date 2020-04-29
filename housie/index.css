@@ -1,0 +1,72 @@
+body{
+    font-family: monospace;
+    background-color: #f0f0f0;
+}
+.centre{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: white;
+}
+.shadow{
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.container{
+    display: grid;
+    grid-template-columns: auto auto; 
+}
+.left{
+    border-right: 1px dashed grey;
+    box-sizing: border-box;
+}
+#revealed{
+    font-size: 20px;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+#status{
+    background-color: sandybrown;
+    padding: 3px;
+    border-radius: 7px;
+}
+#log{
+    max-width: 340px;
+}
+.fence{
+    width: 340px;
+    margin: auto;
+    margin-bottom: 10px; 
+}
+table {
+    border-collapse: collapse;
+    cursor: pointer;
+}
+table td, table tr{
+    padding: 2px;
+}
+table td{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background-color: #aad751;
+}
+table tr:nth-child(even) td:nth-child(even), table tr:nth-child(odd) td:nth-child(odd){
+    background-color: #a2d149;
+}
+table#playground td:hover{
+    background-color: sandybrown;
+}
+table#playground td.reveal{
+    background-color: #eee;
+}
+table td strike{
+    background-color: #fbb;
+    border-radius: 20px;
+    padding: 5px;
+}
+#tickets{
+    width: 306px;
+    margin: auto;
+    margin-bottom: 10px;
+}
