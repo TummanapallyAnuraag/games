@@ -71,6 +71,14 @@ function zeros(dimensions) {
     return array;
 }
 
+function array_seq(ini_num, final_num){
+  var array=[]
+  for (i=0; i<=final_num-ini_num; i++){
+    array.push(ini_num+i);
+  }
+    return array;
+}
+
 function generate_ticket(){
   var col_log=zeros(8,10);
   for(c=0 ; c<8 ; c++){
@@ -130,112 +138,99 @@ function generate_ticket(){
       }
     }
   }while(flag==1)
-  //Assign numbers to the places specified
+//Assign numbers to the places specified
   for (c=0; c<9; c++){
-  //var col_log=[]
-  var curr_col=[]
-  for (r=0; r< 3;r++){
-  if (result[r][c]){
-  if (c==0){
-  if (col1.length!=0){
-  result[r][c]=col1.pop();
-  }
-  else {
-  result[r][c]=getRandomArbitrary(c*10,c*10+10);
-  }
-  }
-  else{
-  if(c==8) {
-  if (col8.length!=0){
-  result[r][c]=col8.pop();
-  }
-  else {
-  result[r][c]=getRandomArbitrary(c*10,c*10+11);
-  }
-  }
-  else {
-  if (col_log[c-1].length!=0)
-  result[r][c]=col_log[c-1].pop();
-  else {
-  result[r][c]=getRandomArbitrary(c*10,c*10+10);
-  }
-  }
-  }
-  if (r==1){
-  while (result[r][c]==result[r-1][c]){
-  result[r][c]=getRandomArbitrary(c*10+1,c*10+11);
-  }
-  }
-  if (r==2){
-  while (result[r][c]==result[r-1][c] || result[r][c]==result[r-2][c]){
-  result[r][c]=getRandomArbitrary(c*10+1,c*10+11);
-  }
-  }
-  }
-  if (result[r][c]!=0){
-  curr_col.push(result[r][c])
-  }
-  }
-  curr_col.sort(function(a, b){return a - b});
-  //     document.getElementById('testing').innerHTML = curr_col;
-  for (r=2; r>=0;r--){
-  if (result[r][c]!=0){
-  result[r][c]=curr_col.pop()
-  }
-  }
-  }
-  window.params.ticket_count++;
-  var ticket = document.createElement("table");
-  ticket.setAttribute('id', 'ticket-'+window.params.ticket_count);
-  // ticket.setAttribute('onclick', 'print_ticket('+ window.params.ticket_count +')');
-  for(r = 0; r < 3; r++){
-  var row = ticket.insertRow(r);
-  for(c = 0; c < 9; c++){
-  var cell = row.insertCell(c);
-  cell.innerHTML = result[r][c] > 0 ? result[r][c] : '';
-  }
-  }
-  var dstring = '&data=' + result[0].join() + ';' + result[1].join() + ';' + result[2].join();
-  _br = document.createElement('br');
-  _href = document.createElement('a');
-
-  _href.innerHTML = 'Link to share..';
-  _href.href = 'ticket.html?' + dstring;
-
-  _tickets_panel = document.getElementById('tickets-start');
-  _tickets_panel.after(ticket);
-  _tickets_panel.after(_href);
-  _tickets_panel.after(_br);
-  }
-}
-
-function toggle_cell(obj){
-  var cname = obj.getAttribute('class');
-  if(cname.indexOf('selected') != -1){
-    if(confirm('Do you want to de-selet this entry?')){
-      cname = cname.replace(' selected', '');
-      obj.setAttribute('class', cname);
-      obj.innerHTML = obj.innerHTML.replace('<strike>', '');
-      obj.innerHTML = obj.innerHTML.replace('</strike>', '');
+    //var col_log=[]
+    var curr_col=[]
+    for (r=0; r< 3;r++){
+      if (result[r][c]){
+        if (c==0){
+          if (col1.length!=0){
+            result[r][c]=col1.pop();
+          }
+          else {
+            result[r][c]=getRandomArbitrary(c*10,c*10+10);
+          }
+        }
+        else{
+          if(c==8) {
+            if (col8.length!=0){
+              result[r][c]=col8.pop();
+            }
+            else {
+              result[r][c]=getRandomArbitrary(c*10,c*10+11);
+            }
+          }
+          else {
+            if (col_log[c-1].length!=0)
+              result[r][c]=col_log[c-1].pop();
+            else {
+              result[r][c]=getRandomArbitrary(c*10,c*10+10);
+            }
+          }
+        }
+        if (r==1){
+          while (result[r][c]==result[r-1][c]){
+            result[r][c]=getRandomArbitrary(c*10+1,c*10+11);
+          }
+        }
+        if (r==2){
+          while (result[r][c]==result[r-1][c] || result[r][c]==result[r-2][c]){
+            result[r][c]=getRandomArbitrary(c*10+1,c*10+11);
+          }
+        }
+      }
+      if (result[r][c]!=0){
+        curr_col.push(result[r][c])
+      }
     }
-  }else{
-    obj.setAttribute('class', cname + ' selected');
-    obj.innerHTML = '<strike>' + obj.innerHTML + '</strike>';
+     curr_col.sort(function(a, b){return a - b});
+//     document.getElementById('testing').innerHTML = curr_col;
+     for (r=2; r>=0;r--){
+       if (result[r][c]!=0){
+         result[r][c]=curr_col.pop()
+       }
+     }
   }
-}
-
-function zeros(dimensions) {
-    var array = [];
-    for (var i = 0; i < dimensions[0]; ++i) {
-        array.push(dimensions.length == 1 ? 0 : zeros(dimensions.slice(1)));
+    window.params.ticket_count++;
+    var ticket = document.createElement("table");
+    ticket.setAttribute('id', 'ticket-'+window.params.ticket_count);
+    // ticket.setAttribute('onclick', 'print_ticket('+ window.params.ticket_count +')');
+    for(r = 0; r < 3; r++){
+        var row = ticket.insertRow(r);
+        for(c = 0; c < 9; c++){
+            var cell = row.insertCell(c);
+            cell.innerHTML = result[r][c] > 0 ? result[r][c] : '';
+        }
     }
-    return array;
+    var dstring = '&data=' + result[0].join() + ';' + result[1].join() + ';' + result[2].join();
+    _br = document.createElement('br');
+    _href = document.createElement('a');
+
+    _href.innerHTML = 'Link to share..';
+    _href.href = 'ticket.html?' + dstring;
+
+    _tickets_panel = document.getElementById('tickets-start');
+    _tickets_panel.after(ticket);
+    _tickets_panel.after(_href);
+    _tickets_panel.after(_br);
+}
 }
 
-function array_seq(ini_num, final_num){
-  var array=[]
-  for (i=0; i<=final_num-ini_num; i++){
-    array.push(ini_num+i);
-  }
-    return array;
+function print_ticket(id){
+  var ticket_content = document.getElementById('ticket-'+id);
+  var css_content = document.getElementById('mystyle');
+  var WinPrint = window.open('', '', 'left=0,top=0,width=300,height=100,toolbar=0,scrollbars=0,status=0');
+  WinPrint.document.write('<html><head>');
+  WinPrint.document.write(css_content.outerHTML);
+  WinPrint.document.write('</head><body onload="print();close();">');
+  WinPrint.document.write(ticket_content.outerHTML);
+  WinPrint.document.write('</body></html>');
+  WinPrint.document.close();
+  WinPrint.focus();
 }
+
+function Ticket_gen(){
+  window.open("Token_gen.html")
+}
+
