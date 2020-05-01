@@ -70,3 +70,10 @@ table td strike{
     margin: auto;
     margin-bottom: 10px;
 }
+
+.link
+{
+position:absolute;
+left:-1000px;
+top:-1000px;
+}
