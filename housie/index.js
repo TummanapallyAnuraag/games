@@ -104,10 +104,14 @@ function generate_ticket(){
 
 		_href.innerHTML = '[' + window.params.ticket_count + '] Link to share..';
 		_href.href = 'ticket.html?' + dstring;
+                var playerName = document.createElement("INPUT");
+                playerName.setAttribute("type", "text");
 
 		_tickets_panel = document.getElementById('tickets');
 		_tickets_panel.appendChild(_br);
 		_tickets_panel.appendChild(_href);
+                _tickets_panel.appendChild(playerName);
 		_tickets_panel.appendChild(ticket);
+                
 	}
 }
