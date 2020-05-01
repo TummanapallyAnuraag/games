@@ -115,6 +115,7 @@ function generate_ticket(){
 		_hiddenLink.setAttribute("type","text");
 		_hiddenLink.setAttribute('id', 'hidden'+window.params.ticket_count);
 		_hiddenLink.setAttribute('value', url+'ticket.html?' + dstring);
+		_hiddenLink.setAttribute('class','link');
 
 		_href.innerHTML = '[' + window.params.ticket_count + ']';
 
