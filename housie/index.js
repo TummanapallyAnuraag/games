@@ -100,14 +100,63 @@ function generate_ticket(){
 		}
 		var dstring = '&data=' + result[0].join() + ';' + result[1].join() + ';' + result[2].join();
 		_br = document.createElement('br');
-		_href = document.createElement('a');
 
-		_href.innerHTML = '[' + window.params.ticket_count + '] Link to share..';
-		_href.href = 'ticket.html?' + dstring;
+		_href = document.createElement('a');
+		var playerName = document.createElement("INPUT");
+		playerName.setAttribute('id', 'player'+window.params.ticket_count);
+                playerName.setAttribute("type", "text");
+
+		_copyLink = document.createElement('button');
+		_copyLink.innerHTML='Copy Link';
+		_copyLink.setAttribute('id', window.params.ticket_count);
+		
+		 var url=window.location.pathname;
+		_hiddenLink=document.createElement("INPUT");
+		_hiddenLink.setAttribute("type","text");
+		_hiddenLink.setAttribute('id', 'hidden'+window.params.ticket_count);
+		_hiddenLink.setAttribute('value', url+'ticket.html?' + dstring);
+		_hiddenLink.setAttribute('class','link');
+
+		_href.innerHTML = '[' + window.params.ticket_count + ']';
+
+		var labelName=document.createElement("p");
+		labelName.innerHTML='Player Name:';
 
 		_tickets_panel = document.getElementById('tickets');
 		_tickets_panel.appendChild(_br);
 		_tickets_panel.appendChild(_href);
+		_tickets_panel.appendChild(_copyLink);
+		_tickets_panel.appendChild(_hiddenLink);
+		_tickets_panel.appendChild(labelName);
+                _tickets_panel.appendChild(playerName);
 		_tickets_panel.appendChild(ticket);
-	}
+
+		_copyLink.setAttribute('onclick', 'copyValue(this)');
+		
+	}	
 }
+
+function copyValue(value)
+{
+var id=value.id;
+var hiddenLink=document.getElementById('hidden'+id).value;
+var playerName=document.getElementById('player'+id).value;
+if(playerName=="")
+{
+alert('Please enter Player Name');
+}
+else
+{
+hiddenLink=(hiddenLink+"&name="+playerName);
+document.getElementById('hidden'+id).value=hiddenLink;
+var copyText = document.getElementById('hidden'+id);
+  copyText.select();
+  document.execCommand("copy");
+}
+}
+
+
+
+
+
+
