@@ -4,7 +4,8 @@ window.params = {
     coins: 90,
     coin_log: [],
     turn: 0,
-    ticket_count: 0
+    ticket_count: 0,
+    urls: {}
 }
 
 for(i = 0; i < window.params.width*window.params.height; i++)
@@ -98,16 +99,56 @@ function generate_ticket(){
 				}
 			}
 		}
-		var dstring = '&data=' + result[0].join() + ';' + result[1].join() + ';' + result[2].join();
-		_br = document.createElement('br');
-		_href = document.createElement('a');
 
-		_href.innerHTML = '[' + window.params.ticket_count + '] Link to share..';
-		_href.href = 'ticket.html?' + dstring;
+        /* UI for showing ticket */
+		var dstring = '&data=' + result[0].join() + ';' + result[1].join() + ';' + result[2].join();
+        window.params.urls[window.params.ticket_count] = window.location.href.replace('index.html', '') + 'ticket.html?' + dstring;
+        
+        _container = document.createElement('div');
+        _sno = document.createElement('div');
+        _name = document.createElement('input');
+		_href = document.createElement('a');
+        _whatsapp = document.createElement('a');
+
+        _container.setAttribute('class', 'playername-container');
+
+        _sno.innerHTML = window.params.ticket_count + '. ';
+
+		_href.innerHTML = '<img src="link.png" width="20px"/>';
+        _href.href = 'ticket.html?' + dstring;
+		_href.target = '_blank';
+        _href.id = "linkfor-" + window.params.ticket_count;
+
+        _whatsapp.innerHTML = '<img src="whatsapp.png" width="20px"/>';
+        _whatsapp.href = 'whatsapp://send?text=' + window.location.href.replace('index.html', '') + 
+                        'ticket.html?' + dstring;
+        _whatsapp.setAttribute("data-action","share/whatsapp/share");
+        _whatsapp.target = '_blank';
+        _whatsapp.id = "whatsappfor-" + window.params.ticket_count;
+
+
+        _name.placeholder='Player Name';
+        _name.value='';
+        _name.setAttribute('onkeyup', 'ticket_links_update(this);');
+        _name.setAttribute('id', 'namefor-' + window.params.ticket_count);
+        _name.setAttribute('class', 'playername');
+
 
 		_tickets_panel = document.getElementById('tickets');
-		_tickets_panel.appendChild(_br);
-		_tickets_panel.appendChild(_href);
+        _tickets_panel.appendChild(_container);
+        _container.appendChild(_sno);
+		_container.appendChild(_name);
+        _container.appendChild(_href);
+		_container.appendChild(_whatsapp);
 		_tickets_panel.appendChild(ticket);
 	}
+}
+
+function ticket_links_update(obj){
+    ticket_id = parseInt( obj.getAttribute('id').replace('namefor-', '') );
+    link_obj = document.getElementById("linkfor-" + ticket_id);
+    whatsapp_obj = document.getElementById("whatsappfor-" + ticket_id);
+
+    link_obj.href = window.params.urls[ticket_id] + '&name=' + obj.value;
+    whatsapp_obj.href = 'whatsapp://send?text=' + window.params.urls[ticket_id] + '&name=' + obj.value;
 }
