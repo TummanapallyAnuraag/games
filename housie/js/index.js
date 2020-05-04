@@ -120,8 +120,8 @@ function generate_ticket(){
         _href.id = "linkfor-" + window.params.ticket_count;
 
         _whatsapp.innerHTML = '<img src="whatsapp.png" width="20px"/>';
-        _whatsapp.href = 'whatsapp://send?text=' + window.location.href.replace('index.html', '') + 
-                        'ticket.html?' + dstring;
+        _whatsapp.href = 'whatsapp://send?text=' + encodeURIComponent(window.location.href.replace('index.html', '') + 
+                        'ticket.html?' + dstring);
         _whatsapp.setAttribute("data-action","share/whatsapp/share");
         _whatsapp.target = '_blank';
         _whatsapp.id = "whatsappfor-" + window.params.ticket_count;
@@ -150,5 +150,5 @@ function ticket_links_update(obj){
     whatsapp_obj = document.getElementById("whatsappfor-" + ticket_id);
 
     link_obj.href = window.params.urls[ticket_id] + '&name=' + obj.value;
-    whatsapp_obj.href = 'whatsapp://send?text=' + window.params.urls[ticket_id] + '&name=' + obj.value;
+    whatsapp_obj.href = 'whatsapp://send?text=' + encodeURIComponent(window.params.urls[ticket_id] + '&name=' + obj.value);
 }

@@ -118,3 +118,8 @@ button:active{
 .playername-container a img {
     width: 20px; height: 20px;
 }
+#qrcode{
+    width: 256px;
+    margin: auto;
+    margin-bottom: 10px;
+}
