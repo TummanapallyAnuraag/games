@@ -114,12 +114,12 @@ function generate_ticket(){
 
         _sno.innerHTML = window.params.ticket_count + '. ';
 
-		_href.innerHTML = '<img src="link.png" width="20px"/>';
+		_href.innerHTML = '<img src="img/link.png" width="20px"/>';
         _href.href = 'ticket.html?' + dstring;
 		_href.target = '_blank';
         _href.id = "linkfor-" + window.params.ticket_count;
 
-        _whatsapp.innerHTML = '<img src="whatsapp.png" width="20px"/>';
+        _whatsapp.innerHTML = '<img src="img/whatsapp.png" width="20px"/>';
         _whatsapp.href = 'whatsapp://send?text=' + encodeURIComponent(window.location.href.replace('index.html', '') + 
                         'ticket.html?' + dstring);
         _whatsapp.setAttribute("data-action","share/whatsapp/share");

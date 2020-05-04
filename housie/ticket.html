@@ -6,22 +6,110 @@
     <title>Tambola/Housie</title>
     <link href="css/index.css" rel="stylesheet" type="text/css">
     <style type="text/css">
-        .ticket-container{
-            width: 450px; 
-            margin: auto; 
-            text-align: center; 
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
             background-color: white;
-            padding: 10px;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
         }
     </style>
 </head>
 <body >
     <div class="shadow ticket-container">
-        <h1 id="player-name">
-        </h1>
-        <hr><br>
-        <div id="tickets"></div>
-        <div id="qrcode"></div>
+        
+        
+    </div>
+    <div class="centre shadow container">
+        <div class="left" >
+            <div class="centre">
+                <h1>Select number(s) to reveal</h1>
+                <div>
+                    <hr style="border: 1px dashed;"><p id="revealed"><br></p>
+                    <hr style="border: 1px dashed;">
+                    <p class="" id="log">Reveal Sequence: <span id="status"></span> coin(s) revealed <br><br> </p>
+                    <hr>
+                </div>
+            </div>
+            <div class="fence">
+                <table id="playground"></table>
+            </div>
+            <br>
+            <div class="centre">
+                <a href="credits.html" target="_blank" >Credits..</a><br>
+                <a href="rules.html" target="_blank" >Rules..</a>
+            </div>
+            <br>
+        </div>
+        <div class="right" >
+            <div class="centre" >
+                <h1 id="player-name"></h1>
+                <hr><br>
+            </div>
+            <div id="tickets"></div>
+            <div id="qrcode"></div>
+            <div class="centre" >
+                <hr><br>
+            </div>
+            <div class="centre" style="display: flex;">
+                <div style="justify-content: center;align-items: center;display: flex;font-size: 15px;">Auto Strike:
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="auto_strike" onclick="checkbox_clicked();" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
     </div>
     <script type="text/javascript" src="js/qrcode.min.js"></script>
     <script type="text/javascript" src="js/ticket.js"></script>
