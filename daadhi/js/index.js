@@ -17,11 +17,11 @@ window.params = {
         5: [0, 6],
         6: []
     },
-    white_max: 2,
-    black_max: 2,
+    white_max: 10,
+    black_max: 10,
     /* odd - white, even - black */
     turn: 1,
-    threshold: 4,
+    threshold: 20,
     players: {
         0: 'black',
         1: 'white'
@@ -31,7 +31,7 @@ window.params = {
         3:  { l:0, r:6, u:-1, d:10 },
         6:  { l:3, r:-1, u:-1, d:27 },
         8:  { l:-1, r:10, u:-1, d:22 },
-        10: { l:8, r:12, u:-1, d:17 },
+        10: { l:8, r:12, u:3, d:17 },
         12: { l:10, r:-1, u:-1, d:26 },
         16: { l:-1, r:17, u:-1, d:23 },
         17: { l:16, r:18, u:10, d:-1 },
@@ -85,6 +85,9 @@ window.params = {
     remove_flag: 0
 }
 
+document.getElementById('black-pieces').innerHTML = window.params.black_max;
+document.getElementById('white-pieces').innerHTML = window.params.white_max;
+
 var playground = document.getElementById("playground");
 
 /* Generate the grid to play game. */
@@ -99,6 +102,8 @@ for(r = 0; r < 7; r++){
         if(window.params.active_cells[r].includes(c)){
             td.setAttribute('class', 'active');
             td.setAttribute('onclick', 'select(' + parseInt(r) + ', ' + parseInt(c) +  ', this' + ')');
+            td.setAttribute('ondrop', "drop(event)");
+            td.setAttribute('ondragover', "allowDrop(event, this)");
         }else if(window.params.vertical_lines[r].includes(c)){
             td.innerHTML = '<div class="vl"></div>';
         }else{
@@ -121,24 +126,26 @@ function select(r, c, obj){
         /* Empty + Can Put a new piece */
         var player = window.params.players[window.params.turn % 2];
         obj.setAttribute( 'contents', player );
-        obj.innerHTML = '<img src="img/' + player + '.png" width="45px" height="45px" />';
+        obj.innerHTML = '<img color="' + player + '" src="img/' + player + '.png" width="30px" height="30px" \
+        draggable="true" ondragstart="drag(event)" parentid="' + obj.id + '" id="coin-' + window.params.turn +  '"/>';
         var pieces_left = parseInt( document.getElementById(player + '-pieces').innerHTML );
         document.getElementById(player + '-pieces').innerHTML = pieces_left - 1;
-        check_score();
+        check_score(obj.id);
         update_turn();
-    }else if(cont != '' && window.params.turn > window.params.threshold){
+    }
+    // else if(cont != '' && window.params.turn > window.params.threshold){
         /* It is not empty and we want to move the piece, after selection */
         /* remove previous selection */
-        var sel_obj = document.getElementsByClassName('selected');
-        if(sel_obj.length > 0){
-            sel_obj = sel_obj[0];
-            var class_name = sel_obj.getAttribute('class').replace(' selected', '');
-            sel_obj.setAttribute('class', class_name);
-        }
+    //     var sel_obj = document.getElementsByClassName('selected');
+    //     if(sel_obj.length > 0){
+    //         sel_obj = sel_obj[0];
+    //         var class_name = sel_obj.getAttribute('class').replace(' selected', '');
+    //         sel_obj.setAttribute('class', class_name);
+    //     }
 
-        var class_name = obj.getAttribute('class');
-        obj.setAttribute('class', class_name + ' selected');
-    }
+    //     var class_name = obj.getAttribute('class');
+    //     obj.setAttribute('class', class_name + ' selected');
+    // }
 }
 
 function key_press_action(event){
@@ -184,24 +191,33 @@ function key_press_action(event){
                 obj.setAttribute('contents', '');
                 class_name = obj.getAttribute('class').replace(' selected', '');
                 obj.setAttribute('class', class_name);
-                check_score();
+                check_score(next_obj.id);
                 update_turn();
             }
         }
     }
 }
 
-function check_score(){
-
+function check_score(id = -1){
+    id = parseInt(id);
     window.params.score_new['black'] = 0;
     window.params.score_new['white'] = 0;
+    daadhi_by_latest_move = false;
+    daadhi_ids = [];
     for(i = 0; i < 16; i++){
         var content = [];
         for(j = 0; j < 3; j++ ){
             content[j] = document.getElementById(window.params.daadhi_combinations[i][j]).getAttribute('contents');
+            daadhi_ids[j] = window.params.daadhi_combinations[i][j];
         }
         if(content[0] == content[1] && content[0] == content[2] && content[0] != ''){
             window.params.score_new[content[0]]++;
+            console.log(daadhi_ids, id);
+            if(daadhi_ids.includes(id)){
+                daadhi_by_latest_move = true;
+                alert('daadhi');
+                console.log('daadi');
+            }
         }
     }
     if(window.params.score['black'] < window.params.score_new['black']){
@@ -211,15 +227,16 @@ function check_score(){
         console.log(window.params.turn);
         console.log( window.params.score['black'] + '-' + window.params.score['white'] );
         console.log( window.params.score_new['black'] + '-' + window.params.score_new['white'] );
-    }
-
-    if( window.params.score['white'] < window.params.score_new['white'] ){
+    }else if( window.params.score['white'] < window.params.score_new['white'] ){
         window.params.turn--; // becuase it will be incremented in update_turn function
         window.params.remove_flag = 1;
         alert('remove black piece');
         console.log(window.params.turn);
         console.log( window.params.score['black'] + '-' + window.params.score['white'] );
         console.log( window.params.score_new['black'] + '-' + window.params.score_new['white'] );
+    }else if(daadhi_by_latest_move){
+        window.params.turn--; // becuase it will be incremented in update_turn function
+        window.params.remove_flag = 1;
     }
     update_score();
 }
@@ -242,6 +259,7 @@ function update_turn(){
     elems[1].setAttribute('class', c + ' highlight');
     elems[2].setAttribute('class', c + ' highlight');
     elems[3].setAttribute('class', c + ' highlight');
+    document.getElementById("body").setAttribute( 'class', window.params.players[window.params.turn%2] );
 }
 
 function update_score(){
@@ -262,6 +280,7 @@ function remove(r, c, obj){
         update_turn();
         var dead_count = parseInt( document.getElementById(cont+'-dead').innerHTML );
         document.getElementById(cont+'-dead').innerHTML = dead_count + 1;
+        alert('');
         check_score();
     }else{
         alert('remove ' + window.params.players[( window.params.turn +1 )% 2 ] + ' players piece' );
@@ -271,15 +290,55 @@ function remove(r, c, obj){
 function alert(txt){
     var element = document.getElementById('announcement')
     element.innerHTML = txt;
-    var op = 1;  // initial opacity
-    var timer = setInterval(function () {
-        if (op <= 0.1){
-            clearInterval(timer);
-            // element.style.display = 'none';
-            element.innerHTML = '';
+}
+
+/* functions for drag and drop */
+function allowDrop(ev, obj) {
+    if(obj.getAttribute("contents").length == 0 && window.params.turn > window.params.threshold ){
+        var data = ev.dataTransfer.getData("text");
+        coin_img = document.getElementById(data);
+        if(coin_img.getAttribute("color") != window.params.players[window.params.turn % 2]){
+            alert("Other player's turn");
+            return;
         }
-        element.style.opacity = op;
-        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-        op -= op * 0.05;
-    }, 50);
+        var r = parseInt( coin_img.parentElement.getAttribute('row') );
+        var c = parseInt( coin_img.parentElement.getAttribute('col') );
+        var row_index = window.params.active_cells[r].indexOf(c);
+        var class_name = "";
+
+        var moves = [ window.params.possible_moves[r*7+c].l, window.params.possible_moves[r*7+c].r, 
+                        window.params.possible_moves[r*7+c].u, window.params.possible_moves[r*7+c].d]; 
+        if( !moves.includes(parseInt(obj.id) ) ){
+            /* move not possible */
+            alert('move not possible!');
+        }else{
+            ev.preventDefault();
+        }
+    }
+}
+
+function drag(ev) {
+    window.test = ev.target;
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    coin_img = document.getElementById(data);
+    old_parentid = coin_img.getAttribute("parentid");
+    old_parent = document.getElementById(old_parentid);
+
+    ev.target.appendChild(coin_img);
+    old_parent.setAttribute("contents", "");
+    class_name = old_parent.getAttribute('class').replace(' selected', '');
+    old_parent.setAttribute('class', class_name);
+
+    coin_img.setAttribute("parentid", coin_img.parentElement.id);
+    coin_img.parentElement.setAttribute('contents', coin_img.getAttribute('color'));
+
+
+    alert('');
+    check_score(coin_img.parentElement.id);
+    update_turn();
 }
