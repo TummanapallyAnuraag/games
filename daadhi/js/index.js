@@ -17,11 +17,11 @@ window.params = {
         5: [0, 6],
         6: []
     },
-    white_max: 10,
-    black_max: 10,
+    white_max: 2,
+    black_max: 2,
     /* odd - white, even - black */
     turn: 1,
-    threshold: 20,
+    threshold: 4,
     players: {
         0: 'black',
         1: 'white'
@@ -121,7 +121,7 @@ function select(r, c, obj){
         /* Empty + Can Put a new piece */
         var player = window.params.players[window.params.turn % 2];
         obj.setAttribute( 'contents', player );
-        obj.innerHTML = '<img src="' + player + '.png" width="45px" height="45px" />';
+        obj.innerHTML = '<img src="img/' + player + '.png" width="45px" height="45px" />';
         var pieces_left = parseInt( document.getElementById(player + '-pieces').innerHTML );
         document.getElementById(player + '-pieces').innerHTML = pieces_left - 1;
         check_score();
